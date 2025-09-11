@@ -4,4 +4,4 @@
 `pip install -r requirements.txt`
 
 ### Run project
-`python3 checker.py`
+`python3 checker.py` or `python checker.py`
