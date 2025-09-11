@@ -32,7 +32,7 @@ with sync_playwright() as p:
 
     browser.close()
 
-
+# Aggregate and rank issues
 
 # Display results in html report
 
