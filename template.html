@@ -42,20 +42,87 @@
             position: relative;
         }
     </style>
+
+    <script>
+        // Sort violations based on selected criteria
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.querySelector('select');
+            const ul = document.querySelector('ul');
+
+            select.addEventListener('change', () => {
+                const criteria = select.value;
+                const items = Array.from(ul.children);
+
+                items.sort((a, b) => {
+                    const impactOrder = { 'critical': 4, 'serious': 3, 'moderate': 2, 'minor': 1 };
+
+                    const getImpact = (item) => {
+                        const impactClass = item.className.match(/impact-(\w+)/);
+                        return impactClass ? impactOrder[impactClass[1]] : 0;
+                    };
+
+                    const getFrequency = (item) => {
+                        const nodesText = item.querySelector('p').textContent;
+                        const match = nodesText.match(/Nodes: (\d+)/);
+                        return match ? parseInt(match[1], 10) : 0;
+                    };
+
+                    if (criteria === 'alphabetical') {
+                        return a.querySelector('h2').textContent.localeCompare(b.querySelector('h2').textContent);
+                    } else if (criteria === 'impact') {
+                        return getImpact(b) - getImpact(a);
+                    } else if (criteria === 'frequency') {
+                        return getFrequency(b) - getFrequency(a);
+                    } else if (criteria === 'impact_frequency') {
+                        return (getImpact(b) * getFrequency(b)) - (getImpact(a) * getFrequency(a));
+                    }
+                });
+
+                ul.innerHTML = '';
+                items.forEach(item => ul.appendChild(item));
+            });
+        });
+    </script>
 </head>
 
 <body>
     <h1 style="text-align: center;">Accessibility Checker</h1>
     <p style="font-weight: 500; font-size: 1.5rem; text-align: center;">{{ violations|length }} violations found</p>
 
+    <!-- Sort select for options: alphabetical, impact, frequency/nodes, impact*frequency -->
+    {% if violations|length != 0 %}
+    <label htmlFor="sort">Sort by: </label>
+    <select id="sort">
+        <option value="impact_frequency" selected>Impact * Frequency</option>
+        <option value="alphabetical">Alphabetical</option>
+        <option value="impact">Impact</option>
+        <option value="frequency">Frequency/Nodes</option>
+    </select>
+    {% endif %}
+
     <ul style="list-style-type: none; padding: 0;">
         {% for violation in violations %}
         <li class="violation impact-{{ violation.impact }}">
-            <h2>{{ violation.id }} ({{ violation.impact|capitalize }})</h2>
-            <p>Nodes affected: {{ violation.nodes|length }}</p>
-            <p>SeverityXfrequency score: {{ violation.severity_score }}</p>
+            <h2>{{ violation.id }}</h2>
+            <p>Impact: {{ violation.impact|capitalize }} | Nodes: {{ violation.nodes|length }}</p>
             <p>{{ violation.help }}</p>
             <a href="{{ violation.helpUrl }}" target="_blank" noopener noreffer>Learn more</a>
+            <details>
+                <ul style="list-style-type: none; padding: 0;">
+                    {% for node in violation.nodes %}
+                    <li class="violation impact-{{ node.impact }}">
+                        <p>{{ node.failureSummary }}</p>
+                        <ul style="list-style-type: none; padding: 0;">
+                            {% for n in node.any %}
+                            <li>
+                                <p><strong>- {{ n.id }}:</strong> {{ n.message }}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
         </li>
         {% endfor %}
     </ul>

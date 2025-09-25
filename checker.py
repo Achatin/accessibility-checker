@@ -1,5 +1,5 @@
 URLS = [
-    "https://ace.ucv.ro/",
+    "https://sens-vue.com/",
 ]
 
 # Run Playwright headless browser
@@ -51,11 +51,10 @@ for v in violations:
     v['impact'] = v.get('impact', 'unknown')
     v['num_nodes'] = len(v.get('nodes', []))
     impact_rank = {
-        'critical': 5,
-        'serious': 4,
-        'moderate': 3,
-        'minor': 2,
-        'unknown': 1
+        'critical': 4,
+        'serious': 3,
+        'moderate': 2,
+        'minor': 1,
     }
     v['severity_score'] = impact_rank.get(v['impact'], 1) * v['num_nodes']
 
