@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Checker</title>
+
+    <style>
+        body {
+            margin: 2rem;
+            font: 1rem Arial, sans-serif;
+            height: 100vh;
+        }
+
+        .violation {
+            border: 1px solid lightgray;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+
+        .impact-critical {
+            border-left: 0.5rem solid darkred;
+        }
+
+        .impact-serious {
+            border-left: 0.5rem solid red;
+        }
+
+        .impact-moderate {
+            border-left: 0.5rem solid orange;
+        }
+
+        .impact-minor {
+            border-left: 0.5rem solid yellow;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Accessibility Checker</h1>
+    <p style="font-weight: 500; font-size: 1.5rem; text-align: center;">{{ violations|length }} violations found</p>
+
+    <ul style="list-style-type: none; padding: 0;">
+        {% for violation in violations %}
+        <li class="violation impact-{{ violation.impact }}">
+            <h2>{{ violation.id }} ({{ violation.impact|capitalize }})</h2>
+            <p>Nodes affected: {{ violation.nodes|length }}</p>
+            <p>SeverityXfrequency score: {{ violation.severity_score }}</p>
+            <p>{{ violation.help }}</p>
+            <a href="{{ violation.helpUrl }}" target="_blank" noopener noreffer>Learn more</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <footer>Team
+        Feams | Innovations in
+        Software
+        Engineering | 2025</footer>
+</body>
+
+</html>
