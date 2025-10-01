@@ -1,14 +1,17 @@
 URLS = [
-    "https://sens-vue.com/",
+    "https://tuke.sk/",
 ]
 
 # Run Playwright headless browser
 # Inject axe-core
+from binascii import Incomplete
 import json
 from pathlib import Path
 from tempfile import template
 from playwright.sync_api import sync_playwright
 from axe_core_python.sync_playwright import Axe
+import datetime
+from zoneinfo import ZoneInfo 
 
 axe = Axe()
 
@@ -42,9 +45,10 @@ with sync_playwright() as p:
 with open(results_file, "r", encoding="utf-8") as f:
     results = json.load(f)
     
-# get violations
+# get violations & passes
 violations = results['violations']
-
+passes = results['passes']
+incomplete = results['incomplete']
 
 # Aggregate and rank issues ---> severity x frequency
 for v in violations:
@@ -65,8 +69,15 @@ from jinja2 import Environment, FileSystemLoader
 env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template('template.html')
 
+
 # render/create html report
-output = template.render(violations=violations)
+output = template.render(
+    url=URLS[0],
+    generated_at=datetime.datetime.now(ZoneInfo("Europe/Paris")),
+    violations=violations,
+    passes=passes,
+    incomplete=incomplete
+)
 
 # save it to file: report.html
 with open("report.html", "w", encoding="utf-8") as f:
