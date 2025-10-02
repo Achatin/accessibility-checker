@@ -28,13 +28,36 @@ def check_robots_txt(url):
     return rp.is_allowed("*", url)
 
 
+def generate_pdf(url, results, template_file="templates/pdf-template.html"):    
+    # Load Jinja template
+    from jinja2 import Environment, FileSystemLoader
+    env = Environment(loader=FileSystemLoader("."))
+    template = env.get_template(template_file)
+    
+    violations_data = results.get('violations', [])
+    passes_data = results.get('passes', [])
+    incomplete_data = results.get('incomplete', [])
+
+    # Render HTML
+    html_out = template.render(
+        url=url,
+        generated_at=datetime.datetime.now(),
+        violations=violations_data,
+        passes=passes_data,
+        incomplete=incomplete_data
+    )
+
+    # Convert to PDF
+    from weasyprint import HTML
+    HTML(string=html_out).write_pdf("report.pdf")
+
+
 axe = Axe()
 
 results_file = "axe_results.json"
 
 # True = allowed, False = disallowed
 result = check_robots_txt(URLS[0])
-print(result)
 
 if result is False:
     print(f"Scraping disallowed by robots.txt: {URLS[0]}")
@@ -109,6 +132,5 @@ with open("report.html", "w", encoding="utf-8") as f:
 print("Report generated: report.html")
 
 
-
-
 # (Optional) Save pdf file of results
+generate_pdf(URLS[0], results)
