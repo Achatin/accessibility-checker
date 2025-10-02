@@ -1,5 +1,5 @@
 URLS = [
-    "https://tuke.sk/",
+    "https://www.sdu.dk/",
 ]
 
 # Run Playwright headless browser
@@ -11,11 +11,34 @@ from tempfile import template
 from playwright.sync_api import sync_playwright
 from axe_core_python.sync_playwright import Axe
 import datetime
-from zoneinfo import ZoneInfo 
+from zoneinfo import ZoneInfo
+from urllib.parse import urlparse
+import requests
+from robotexclusionrulesparser import RobotExclusionRulesParser
+
+def check_robots_txt(url):
+    parsed = urlparse(url)
+    robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
+
+    resp = requests.get(robots_url)
+
+    rp = RobotExclusionRulesParser()
+    rp.parse(resp.text)    
+    
+    return rp.is_allowed("*", url)
+
 
 axe = Axe()
 
 results_file = "axe_results.json"
+
+# True = allowed, False = disallowed
+result = check_robots_txt(URLS[0])
+print(result)
+
+if result is False:
+    print(f"Scraping disallowed by robots.txt: {URLS[0]}")
+    exit(1)
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)

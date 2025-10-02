@@ -1,3 +1,4 @@
 pytest-playwright
 axe-core-python
 jinja2
+robotexclusionrulesparser
