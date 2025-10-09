@@ -3,255 +3,286 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Accessibility Checker</title>
+    <title>Accessibility Report</title>
 
     <style>
         body {
-            margin: 2rem;
-            font: 1rem Arial, sans-serif;
+            margin: 1.5rem;
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
         }
 
-        main {
-            max-width: 64rem;
-            margin: auto;
+        h1 {
+            font-size: 20pt;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.3rem;
         }
 
-        h1,
-        h2,
-        h3 {
-            margin: 0;
-            margin-bottom: 0.4rem;
+        h2 {
+            font-size: 14pt;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
             page-break-after: avoid;
         }
 
-        p {
-            margin: 0;
-            margin-bottom: 0.3rem;
-        }
-
-        a {
-            text-decoration: none;
-            color: blue;
-            font-weight: 500;
-        }
-
-        code {
-            background-color: #f3f4f6;
-            border-radius: 0.25rem;
-            padding: 0.1rem 0.3rem;
-            font-size: 0.9rem;
-        }
-
-        pre {
-            margin: 0;
-        }
-
-        .border-box {
-            border: 1px solid lightgray;
-            border-radius: 0.5rem;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 1rem;
-            padding: 1rem;
-            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            padding: 0.5rem;
+            text-align: left;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            vertical-align: top;
+            font-size: 9pt;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .info-table td {
+            border: 1px solid #ddd;
+        }
+
+        .info-table td:first-child {
+            font-weight: bold;
+            width: 25%;
+            background-color: #f0f0f0;
+        }
+
+        .summary-table {
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-table td {
+            text-align: center;
+            font-weight: bold;
+            font-size: 11pt;
         }
 
         .impact-critical {
-            border-left: 0.5rem solid darkred;
+            background-color: #fdd !important;
+            color: #600;
         }
 
         .impact-serious {
-            border-left: 0.5rem solid red;
+            background-color: #fed !important;
+            color: #800;
         }
 
         .impact-moderate {
-            border-left: 0.5rem solid orange;
+            background-color: #ffe !important;
+            color: #840;
         }
 
         .impact-minor {
-            border-left: 0.5rem solid #cccc00;
-            /* darker yellow for print visibility */
+            background-color: #ffd !important;
+            color: #660;
         }
 
-        .violation-count-container {
-            display: table;
-            width: 100%;
+        .impact-passed {
+            background-color: #dfd !important;
+            color: #060;
         }
 
-        .text-detail {
-            color: #4a5565;
+        code {
+            background-color: #f5f5f5;
+            padding: 0.2rem 0.3rem;
+            font-size: 8pt;
+            word-break: break-all;
+            display: block;
+            margin-top: 0.3rem;
         }
 
-        .badge {
-            border-radius: 9999px;
-            border: 1px solid lightgray;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .badge.secondary {
-            background-color: #f3f4f6;
+        .description {
+            color: #555;
+            margin-bottom: 0.3rem;
         }
 
         footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ccc;
             text-align: center;
-            padding: 1rem;
-            font-size: 0.8rem;
+            font-size: 8pt;
+            color: #666;
+        }
+
+        .small-text {
+            font-size: 8pt;
+            color: #666;
+        }
+
+        h3 {
+            font-size: 12pt;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            page-break-after: avoid;
+        }
+
+        .violation-section {
+            margin-top: 2rem;
+        }
+
+        .violation-header {
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            border-left: 4px solid #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .instance-table {
+            margin-bottom: 1.5rem;
+        }
+
+        .instance-table th {
+            background-color: #666;
         }
     </style>
 </head>
 
 <body>
+    <h1>Accessibility Report</h1>
+    
+    <table class="info-table">
+        <tr>
+            <td>URL</td>
+            <td>{{ url }}</td>
+        </tr>
+        <tr>
+            <td>Scanned</td>
+            <td>{{ generated_at.strftime("%d-%m-%Y %H:%M:%S %Z") }}</td>
+        </tr>
+        <tr>
+            <td>Tool</td>
+            <td>axe-core (WCAG 2.0, 2.1, 2.2 - Levels A, AA, AAA)</td>
+        </tr>
+    </table>
 
-    {% macro impact_icon(impact) %}
-    {% if impact == "critical" %}
-    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
-        <path d="M12 16h.01" />
-        <path d="M12 8v4" />
-        <path
-            d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
-    </svg>
-    {% elif impact == "serious" %}
-    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
-        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
-        <path d="M12 9v4" />
-        <path d="M12 17h.01" />
-    </svg>
-    {% elif impact == "moderate" %}
-    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" x2="12" y1="8" y2="12" />
-        <line x1="12" x2="12.01" y1="16" y2="16" />
-    </svg>
-    {% elif impact == "minor" %}
-    <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 16v-4" />
-        <path d="M12 8h.01" />
-    </svg>
-    {% endif %}
-    {% endmacro %}
+    <h2>Summary</h2>
+    
+    <table class="summary-table">
+        <tr>
+            <th>Total Violations</th>
+            <th>Passed</th>
+            <th>Incomplete</th>
+        </tr>
+        <tr>
+            <td style="background-color: #fdd !important; color: #600;">{{ violations|length }}</td>
+            <td class="impact-passed">{{ passes|length }}</td>
+            <td>{{ incomplete|length }}</td>
+        </tr>
+    </table>
 
-    <main>
-        <h1>Accessibility Report</h1>
-        <p class="text-detail" style="margin-bottom: 2rem;">This accessibility report is generated using
-            <strong>axe-core</strong>.
-            It evaluates content against <strong>WCAG 2.0, 2.1, and 2.2 success criteria</strong>
-            at <strong>Levels A, AA, and AAA</strong>, as well as a set of
-            <strong>best practice rules</strong> for common accessibility issues.
-            Axe-core can automatically detect many issues and will mark others as
-            <em>incomplete</em> when manual review is required.
-        </p>
+    {% set critical_count = (violations | selectattr('impact', 'equalto', 'critical') | list | length) %}
+    {% set serious_count = (violations | selectattr('impact', 'equalto', 'serious') | list | length) %}
+    {% set moderate_count = (violations | selectattr('impact', 'equalto', 'moderate') | list | length) %}
+    {% set minor_count = (violations | selectattr('impact', 'equalto', 'minor') | list | length) %}
 
-        <div class="border-box violation-count-container">
-            <div>
-                <p><strong>URL:</strong> <code>{{ url }}</code></p>
-                <p><strong>Scanned:</strong>
-                    <span class="text-detail">{{ generated_at.strftime("%d-%m-%Y %H:%M:%S %Z") }}</span>
-                </p>
-            </div>
-            <div>
-                <p class="text-detail"><strong>{{ violations|length }}</strong> violations</p>
-                <p class="text-detail"><strong>{{ passes|length }}</strong> passed</p>
-                <p class="text-detail"><strong>{{ incomplete|length }}</strong> incomplete</p>
-            </div>
+
+    {% if violations|length == 0 %}
+    <p style="color: green; font-weight: bold;">No violations found! ✓</p>
+    {% else %}
+    <h2>Violations - Impact</h2>
+    <table class="summary-table">
+        <tr>
+            <th>Critical</th>
+            <th>Serious</th>
+            <th>Moderate</th>
+            <th>Minor</th>
+        </tr>
+        <tr>
+            <td class="impact-critical">{{ critical_count }}</td>
+            <td class="impact-serious">{{ serious_count }}</td>
+            <td class="impact-moderate">{{ moderate_count }}</td>
+            <td class="impact-minor">{{ minor_count }}</td>
+        </tr>
+    </table>
+
+    <h2>Violations - Summary</h2>
+    <table>
+        <tr>
+            <th style="width: 15%;">Rule ID</th>
+            <th style="width: 8%;">Impact</th>
+            <th style="width: 30%;">Description</th>
+            <th style="width: 10%;">Instances</th>
+            <th style="width: 37%;">Affected Elements (Sample)</th>
+        </tr>
+        {% for violation in violations %}
+        <tr>
+            <td><strong>{{ violation.id }}</strong></td>
+            <td class="impact-{{ violation.impact }}">{{ violation.impact|upper }}</td>
+            <td>
+                {{ violation.help|e }}
+                <div class="small-text" style="margin-top: 0.3rem;">
+                    <a href="{{ violation.helpUrl }}" style="color: #0066cc;">Learn more</a>
+                </div>
+            </td>
+            <td style="text-align: center;"><strong>{{ violation.nodes|length }}</strong></td>
+            <td>
+                {% if violation.nodes|length > 0 %}
+                <div class="description">{{ violation.nodes[0].failureSummary }}</div>
+                <code>{{ violation.nodes[0].html|e }}</code>
+                {% if violation.nodes|length > 1 %}
+                <div class="small-text" style="margin-top: 0.3rem;">
+                    + {{ violation.nodes|length - 1 }} more instance(s)
+                </div>
+                {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Violations - Detailed report</h2>
+    
+    {% for violation in violations %}
+    <div class="violation-section">
+        <div class="violation-header">
+            <h3 style="margin: 0;">{{ loop.index }}. {{ violation.id }} 
+                <span style="font-size: 10pt; font-weight: normal;">({{ violation.impact|upper }})</span>
+            </h3>
+            <p style="margin: 0.3rem 0 0 0; font-size: 9pt;">{{ violation.help|e }}</p>
+            <p style="margin: 0.3rem 0 0 0;">
+                <a href="{{ violation.helpUrl }}" style="color: #0066cc; font-size: 8pt;">Learn more</a>
+            </p>
         </div>
 
-        <div style="display: table; width: 100%; margin-bottom: 1.5rem;">
-            {% set critical_count = (violations | selectattr('impact', 'equalto', 'critical') | list | length) %}
-            {% set serious_count = (violations | selectattr('impact', 'equalto', 'serious') | list | length) %}
-            {% set moderate_count = (violations | selectattr('impact', 'equalto', 'moderate') | list | length) %}
-            {% set minor_count = (violations | selectattr('impact', 'equalto', 'minor') | list | length) %}
-
-            <div class="border-box violation-count-container">
-                <div>
-                    <p class="text-detail"><strong>Critical</strong></p>
-                    <p style="font-weight: 600; font-size: 2rem;">{{ critical_count }}</p>
-                </div>
-                {{ impact_icon('critical') }}
-            </div>
-
-            <div class="border-box violation-count-container">
-                <div>
-                    <p class="text-detail"><strong>Serious</strong></p>
-                    <p style="font-weight: 600; font-size: 2rem;">{{ serious_count }}</p>
-                </div>
-                {{ impact_icon('serious') }}
-            </div>
-
-            <div class="border-box violation-count-container">
-                <div>
-                    <p class="text-detail"><strong>Moderate</strong></p>
-                    <p style="font-weight: 600; font-size: 2rem;">{{ moderate_count }}</p>
-                </div>
-                {{ impact_icon('moderate') }}
-            </div>
-
-            <div class="border-box violation-count-container">
-                <div>
-                    <p class="text-detail"><strong>Minor</strong></p>
-                    <p style="font-weight: 600; font-size: 2rem;">{{ minor_count }}</p>
-                </div>
-                {{ impact_icon('minor') }}
-            </div>
-
-            <div class="border-box violation-count-container" style="background-color: #eff6ff;">
-                <div>
-                    <p class="text-detail"><strong>Passed</strong></p>
-                    <p style="font-weight: 600; font-size: 2rem;">{{ passes|length }}</p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="m9 12 2 2 4-4" />
-                </svg>
-            </div>
-        </div>
-
-        {% if violations|length != 0 %}
-        <h2>Violations</h2>
-        <ul style="list-style-type: none; padding: 0;">
-            {% for violation in violations %}
-            <li class="border-box impact-{{ violation.impact }}">
-                <div style="display: table; width: 100%;">
-                    <h3>{{ violation.id }}</h3>
-                    <div>
-                        <span class="badge">{{ violation.impact }}</span>
-                        <span class="badge secondary">{{ violation.nodes|length }} instances</span>
-                    </div>
-                </div>
-                <p class="text-detail" style="margin-bottom: 0.6rem;">{{ violation.help|e }}.</p>
-                <a href="{{ violation.helpUrl }}" target="_blank" rel="noopener noreferrer">
-                    Learn more
-                </a>
-
-                <div style="margin-top: 1rem;">
-                    <h4>Instances</h4>
-                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
-                        {% for node in violation.nodes %}
-                        <li class="border-box" style="margin-bottom: 1rem;">
-                            <p class="text-detail" style="margin-bottom: 0.5rem;">{{ node.failureSummary }}</p>
-                            <p><strong>Affected elements</strong></p>
-                            <code>{{ node.html|e }}</code>
-
-                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
-                                {% for n in node.any %}
-                                <li class="border-box">
-                                    <p><strong>{{ n.id }}:</strong> {{ n.message }}</p>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </li>
+        <table class="instance-table">
+            <tr>
+                <th style="width: 5%;">#</th>
+                <th style="width: 45%;">Affected Element</th>
+                <th style="width: 50%;">Failure Summary</th>
+            </tr>
+            {% for node in violation.nodes %}
+            <tr>
+                <td style="text-align: center;">{{ loop.index }}</td>
+                <td><code>{{ node.html|e }}</code></td>
+                <td>{{ node.failureSummary }}</td>
+            </tr>
             {% endfor %}
-        </ul>
-        {% endif %}
+        </table>
+    </div>
+    {% endfor %}
 
-        <footer>
-            Team Feams | Innovations in Software Engineering | 2025
-        </footer>
-    </main>
+    {% endif %}
+
+    <footer>
+        Team Feams | Innovations in Software Engineering | 2025
+    </footer>
 </body>
 
 </html>
