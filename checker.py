@@ -28,6 +28,21 @@ def check_robots_txt(url):
     return rp.is_allowed("*", url)
 
 
+def check_crawl_delay(url):
+    parsed = urlparse(url)
+    robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
+
+    resp = requests.get(robots_url)
+
+    rp = RobotExclusionRulesParser()
+    rp.parse(resp.text)    
+    
+    delay = rp.get_crawl_delay("*")
+    if delay is None:
+        return 0
+    return delay
+
+
 def generate_pdf(url, results, template_file="templates/pdf-template.html"):    
     # Load Jinja template
     from jinja2 import Environment, FileSystemLoader
@@ -58,6 +73,8 @@ results_file = "axe_results.json"
 
 # True = allowed, False = disallowed
 result = check_robots_txt(URLS[0])
+delay = check_crawl_delay(URLS[0])
+print(f"Crawl-delay: {delay} seconds")
 
 if result is False:
     print(f"Scraping disallowed by robots.txt: {URLS[0]}")
@@ -134,3 +151,73 @@ print("Report generated: report.html")
 
 # (Optional) Save pdf file of results
 generate_pdf(URLS[0], results)
+
+
+def run_checker(url: str):
+    from pathlib import Path
+    from playwright.sync_api import sync_playwright
+    from axe_core_python.sync_playwright import Axe
+    import json, datetime
+    from jinja2 import Environment, FileSystemLoader
+    from weasyprint import HTML
+    from zoneinfo import ZoneInfo
+    from urllib.parse import urlparse
+    import requests
+    from robotexclusionrulesparser import RobotExclusionRulesParser
+
+    def check_robots_txt(url):
+        parsed = urlparse(url)
+        robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
+        resp = requests.get(robots_url)
+        rp = RobotExclusionRulesParser()
+        rp.parse(resp.text)
+        return rp.is_allowed("*", url)
+
+    def check_crawl_delay(url):
+        parsed = urlparse(url)
+        robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
+        resp = requests.get(robots_url)
+        rp = RobotExclusionRulesParser()
+        rp.parse(resp.text)
+        delay = rp.get_crawl_delay("*")
+        return delay or 0
+
+    if not check_robots_txt(url):
+        raise Exception(f"Scraping disallowed by robots.txt for {url}")
+
+    delay = check_crawl_delay(url)
+    print(f"Crawl-delay: {delay} seconds")
+
+    axe = Axe()
+    results_file = "axe_results.json"
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+        page.goto(url)
+        results = axe.run(page)
+        browser.close()
+
+    with open(results_file, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+
+    # Generate HTML report
+    env = Environment(loader=FileSystemLoader('.'))
+    template = env.get_template('template.html')
+    violations = results['violations']
+    passes = results['passes']
+    incomplete = results['incomplete']
+    output = template.render(
+        url=url,
+        generated_at=datetime.datetime.now(ZoneInfo("Europe/Paris")),
+        violations=violations,
+        passes=passes,
+        incomplete=incomplete
+    )
+    with open("report.html", "w", encoding="utf-8") as f:
+        f.write(output)
+
+    # PDF version
+    HTML(string=output).write_pdf("report.pdf")
+    return "Report generated successfully!"
