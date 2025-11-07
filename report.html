@@ -161,13 +161,13 @@
 
         <div class="border-box" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <p><strong>URL:</strong> <code>https://flet.dev</code></p>
-                <p><strong>Scanned:</strong> <span class="text-detail">06-11-2025 11:52:16 CET</span></p>
+                <p><strong>URL:</strong> <code>https://tuke.sk</code></p>
+                <p><strong>Scanned:</strong> <span class="text-detail">07-11-2025 16:31:54 CET</span></p>
             </div>
             <div style="display: flex; justify-content: space-between; column-gap: 1rem;">
-                <p class="text-detail"><strong>2</strong> violations</p>
-                <p class="text-detail"><strong>41</strong> passed</p>
-                <p class="text-detail"><strong>1</strong> incomplete</p>
+                <p class="text-detail"><strong>5</strong> violations</p>
+                <p class="text-detail"><strong>35</strong> passed</p>
+                <p class="text-detail"><strong>2</strong> incomplete</p>
             </div>
         </div>
 
@@ -203,7 +203,7 @@
                 <div>
                     <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Serious
                     </p>
-                    <p style="font-weight: 600; font-size: 2rem;">1</p>
+                    <p style="font-weight: 600; font-size: 2rem;">2</p>
                 </div>
 
                 
@@ -223,7 +223,7 @@
                 <div>
                     <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Moderate
                     </p>
-                    <p style="font-weight: 600; font-size: 2rem;">0</p>
+                    <p style="font-weight: 600; font-size: 2rem;">1</p>
                 </div>
 
                 
@@ -242,7 +242,7 @@
             <div class="border-box violation-count-container">
                 <div>
                     <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Minor</p>
-                    <p style="font-weight: 600; font-size: 2rem;">0</p>
+                    <p style="font-weight: 600; font-size: 2rem;">1</p>
                 </div>
 
                 
@@ -260,7 +260,7 @@
             <div class="border-box violation-count-container" style="background-color: #eff6ff;">
                 <div>
                     <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Passed</p>
-                    <p style="font-weight: 600; font-size: 2rem;">41</p>
+                    <p style="font-weight: 600; font-size: 2rem;">35</p>
                 </div>
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
@@ -286,16 +286,16 @@
 
         <ul style="list-style-type: none; padding: 0;">
             
-            <li class="border-box impact-serious">
+            <li class="border-box impact-moderate">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3>color-contrast</h3>
+                    <h3>region</h3>
                     <div style="display: flex; align-items: center; column-gap: 0.5rem;">
-                        <div class="badge">serious</div>
-                        <div class="badge secondary">6 instances</div>
+                        <div class="badge">moderate</div>
+                        <div class="badge secondary">5 instances</div>
                     </div>
                 </div>
-                <p class="text-detail" style="margin-bottom: 0.6rem;">Elements must have sufficient color contrast.</p>
-                <a href="https://dequeuniversity.com/rules/axe/4.4/color-contrast?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                <p class="text-detail" style="margin-bottom: 0.6rem;">All page content should be contained by landmarks.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/region?application=axeAPI" target="_blank" rel="noopener noreferrer">
                     Learn more
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -311,15 +311,15 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 2.27 (foreground color: #969faf, background color: #ebedf0, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+  Some page content is not contained by landmarks</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;span class=&#34;DocSearch-Button-Placeholder&#34;&gt;Search&lt;/span&gt;</code>
+                            <code>&lt;div class=&#34;text-custom-white hidden grid-cols-1 grid-rows-2 items-start gap-x-2 pb-[52px] md:grid md:grid-cols-12 md:grid-rows-1 lg:gap-x-5&#34;&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 2.27 (foreground color: #969faf, background color: #ebedf0, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
                                 </li>
                                 
                             </ul>
@@ -327,15 +327,15 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 3.94 (foreground color: #ffffff, background color: #f81d5b, font size: 16.5pt (22px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+  Some page content is not contained by landmarks</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;a class=&#34;indexCtasGetStartedButton_UQaK&#34; href=&#34;/docs/&#34;&gt;Get Started&lt;/a&gt;</code>
+                            <code>&lt;div class=&#34;workspace-1-secondary-footer-border-color grid w-full grid-cols-1 gap-8 border-b pb-10 md:pb-[60px] xl:grid-cols-9 xl:gap-[34px]&#34;&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 3.94 (foreground color: #ffffff, background color: #f81d5b, font size: 16.5pt (22px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
                                 </li>
                                 
                             </ul>
@@ -343,15 +343,15 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+  Some page content is not contained by landmarks</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;a href=&#34;https://flutter.dev&#34;&gt;Flutter&lt;/a&gt;</code>
+                            <code>&lt;span class=&#34; workspace-1-secondary-footer-text-color text-[12px] sm:text-[16px] var(--font-inter); font-normal text-left var(--font-onest); not-italic&#34;&gt;&lt;span class=&#34;text-[10px] font-normal sm:text-[16px]&#34;&gt;© 2025 Technical University of Košice, all rights reserved.&lt;/span&gt;&lt;/span&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
                                 </li>
                                 
                             </ul>
@@ -359,15 +359,15 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+  Some page content is not contained by landmarks</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;a href=&#34;/docs&#34;&gt;Python&lt;/a&gt;</code>
+                            <code>&lt;span class=&#34; workspace-1-secondary-footer-text-color text-[12px] sm:text-[16px] var(--font-inter); font-normal underline var(--font-onest); not-italic&#34;&gt;&lt;a href=&#34;https://tuke.sk/en/protection-of-personal-data&#34;&gt;Protection of personal data&lt;/a&gt;&lt;/span&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
                                 </li>
                                 
                             </ul>
@@ -375,31 +375,15 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+  Some page content is not contained by landmarks</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;a href=&#34;/roadmap&#34;&gt;coming next&lt;/a&gt;</code>
+                            <code>&lt;span class=&#34; workspace-1-secondary-footer-text-color text-[12px] sm:text-[16px] var(--font-inter); font-normal underline var(--font-onest); not-italic&#34;&gt;&lt;a href=&#34;https://tuke.sk/en/accessibility-statement&#34;&gt;Accessibility Statement&lt;/a&gt;&lt;/span&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
-                                </li>
-                                
-                            </ul>
-                        </li>
-                        
-                        <li class="border-box" style="margin-bottom: 1rem;">
-                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
-
-                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;a href=&#34;https://web.dev/what-are-pwas/&#34;&gt;PWA&lt;/a&gt;</code>
-
-                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
-                                
-                                <li class="border-box">
-                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 3.38 (foreground color: #008dfb, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
                                 </li>
                                 
                             </ul>
@@ -411,14 +395,14 @@
             
             <li class="border-box impact-critical">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3>image-alt</h3>
+                    <h3>button-name</h3>
                     <div style="display: flex; align-items: center; column-gap: 0.5rem;">
                         <div class="badge">critical</div>
-                        <div class="badge secondary">1 instances</div>
+                        <div class="badge secondary">2 instances</div>
                     </div>
                 </div>
-                <p class="text-detail" style="margin-bottom: 0.6rem;">Images must have alternate text.</p>
-                <a href="https://dequeuniversity.com/rules/axe/4.4/image-alt?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Buttons must have discernible text.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/button-name?application=axeAPI" target="_blank" rel="noopener noreferrer">
                     Learn more
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -434,19 +418,19 @@
                         
                         <li class="border-box" style="margin-bottom: 1rem;">
                             <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
-  Element does not have an alt attribute
+  Element does not have inner text that is visible to screen readers
   aria-label attribute does not exist or is empty
   aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
   Element has no title attribute
   Element's default semantics were not overridden with role="none" or role="presentation"</p>
 
                             <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
-                            <code>&lt;img src=&#34;img/pages/home/flet-home.png&#34; style=&#34;width:100%&#34;&gt;</code>
+                            <code>&lt;button class=&#34;group bottom-1 border workspace-1-secondary-border-color p-[0.83rem]&#34;&gt;</code>
 
                             <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
                                 
                                 <li class="border-box">
-                                    <p><strong>has-alt:</strong> Element does not have an alt attribute</p>
+                                    <p><strong>button-has-visible-text:</strong> Element does not have inner text that is visible to screen readers</p>
                                 </li>
                                 
                                 <li class="border-box">
@@ -463,6 +447,238 @@
                                 
                                 <li class="border-box">
                                     <p><strong>presentational-role:</strong> Element's default semantics were not overridden with role="none" or role="presentation"</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element does not have inner text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute
+  Element's default semantics were not overridden with role="none" or role="presentation"</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;button class=&#34;group bottom-1 border workspace-1-secondary-border-color p-[0.83rem]&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>button-has-visible-text:</strong> Element does not have inner text that is visible to screen readers</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-label:</strong> aria-label attribute does not exist or is empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-labelledby:</strong> aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>non-empty-title:</strong> Element has no title attribute</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>presentational-role:</strong> Element's default semantics were not overridden with role="none" or role="presentation"</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-serious">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>link-name</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">serious</div>
+                        <div class="badge secondary">2 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Links must have discernible text.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/link-name?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix all of the following:
+  Element is in tab order and does not have accessible text
+
+Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has an empty title attribute</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;a title=&#34;&#34; href=&#34;/&#34;&gt;&lt;/a&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>has-visible-text:</strong> Element does not have text that is visible to screen readers</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-label:</strong> aria-label attribute does not exist or is empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-labelledby:</strong> aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>non-empty-title:</strong> Element has an empty title attribute</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix all of the following:
+  Element is in tab order and does not have accessible text
+
+Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has an empty title attribute</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;a title=&#34;&#34; href=&#34;/&#34;&gt;&lt;/a&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>has-visible-text:</strong> Element does not have text that is visible to screen readers</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-label:</strong> aria-label attribute does not exist or is empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-labelledby:</strong> aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>non-empty-title:</strong> Element has an empty title attribute</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-serious">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>nested-interactive</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">serious</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Interactive controls must not be nested.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/nested-interactive?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has focusable descendants</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;a role=&#34;button&#34; tabindex=&#34;0&#34; target=&#34;_self&#34; class=&#34;flex h-full no-underline &#34; style=&#34;background:#111111&#34; href=&#34;/en/ulysseus-european-university&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>no-focusable-content:</strong> Element has focusable descendants</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-minor">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>empty-heading</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">minor</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Headings should not be empty.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/empty-heading?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;h3 class=&#34;mb-4 max-w-[360px] text-[20px] font-semibold leading-[22px] md:mb-0&#34;&gt;&lt;span class=&#34;sm:text-[20px] font-semibold workspace-1-secondary-text-color text-[14px]  var(--font-onest); not-italic&#34;&gt;&lt;/span&gt;&lt;/h3&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>has-visible-text:</strong> Element does not have text that is visible to screen readers</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-label:</strong> aria-label attribute does not exist or is empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-labelledby:</strong> aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>non-empty-title:</strong> Element has no title attribute</p>
                                 </li>
                                 
                             </ul>
