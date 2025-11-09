@@ -33,6 +33,9 @@ def main(page: ft.Page):
         icon=ft.Icons.FILE_OPEN,
     )
 
+    checkbox_html = ft.Checkbox(label="HTML", value=False)
+    checkbox_pdf = ft.Checkbox(label="PDF", value=False)
+
     def run_check(e):
         url = txt_url.value.strip()
 
@@ -56,8 +59,24 @@ def main(page: ft.Page):
 
         def task():
             try:
-                run_accessibility_check(url)
-                message = "Report generated successfully!"
+                #we verify what checkbox is selected
+                html_selected = checkbox_html.value  
+                pdf_selected = checkbox_pdf.value
+
+                if not checkbox_html.value and not checkbox_pdf.value:
+                   raise Exception("Please select at least one report type (HTML or PDF).")
+
+                from checker import run_axe_analysis, render_html_report, generate_pdf
+
+                results = run_axe_analysis(url)
+
+                #we generate only the selected report type
+                if html_selected:
+                  render_html_report(url, results)
+                if pdf_selected:
+                  generate_pdf(url, results)
+
+                message = "Report(s) generated successfully!"
             except Exception as ex:
                 message = f"Error: {ex}"
             finally:
@@ -77,9 +96,12 @@ def main(page: ft.Page):
             content=ft.Column(
                 [
                     txt_url,
+                    ft.Row([checkbox_html, checkbox_pdf],
+                           alignment=ft.MainAxisAlignment.CENTER),
                     generate_button,
                 ],
-                alignment=ft.alignment.center,
+                alignment=ft.MainAxisAlignment.CENTER,         
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,  
             ),
             alignment=ft.alignment.center,
         )
