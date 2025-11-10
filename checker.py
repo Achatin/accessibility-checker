@@ -3,6 +3,7 @@ import json
 import datetime
 from zoneinfo import ZoneInfo
 from urllib.parse import urlparse
+from pyparsing import List
 import requests
 from robotexclusionrulesparser import RobotExclusionRulesParser
 from playwright.sync_api import sync_playwright
@@ -122,7 +123,7 @@ def generate_pdf(url: str, results: dict, template_file: str = "templates/pdf-te
 # ----------------------------- #
 # Main Workflow
 # ----------------------------- #
-def run_accessibility_check(url: str):
+def run_accessibility_check(url: str, formats: List[str] = ["html", "pdf"]):
     print(f"Checking robots.txt permissions for {url}...")
     if not check_robots_txt(url):
         print(f"Scraping disallowed by robots.txt: {url}")
@@ -134,11 +135,13 @@ def run_accessibility_check(url: str):
     results = run_axe_analysis(url)
     print(f"{len(results['violations'])} violations found.")
 
-    html_output = render_html_report(url, results)
-    print("Report generated: report.html")
+    if "html" in formats:
+        render_html_report(url, results)
+        print("Report generated: report.html")
 
-    generate_pdf(url, results)
-    print("PDF report generated: report.pdf")
+    if "pdf" in formats:
+        generate_pdf(url, results)
+        print("PDF report generated: report.pdf")
 
 
 # ----------------------------- #

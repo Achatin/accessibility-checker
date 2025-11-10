@@ -60,21 +60,19 @@ def main(page: ft.Page):
         def task():
             try:
                 #we verify what checkbox is selected
+                formats = []
                 html_selected = checkbox_html.value  
                 pdf_selected = checkbox_pdf.value
 
                 if not checkbox_html.value and not checkbox_pdf.value:
                    raise Exception("Please select at least one report type (HTML or PDF).")
 
-                from checker import run_axe_analysis, render_html_report, generate_pdf
-
-                results = run_axe_analysis(url)
-
-                #we generate only the selected report type
                 if html_selected:
-                  render_html_report(url, results)
+                    formats.append("html")
                 if pdf_selected:
-                  generate_pdf(url, results)
+                    formats.append("pdf")
+                  
+                run_accessibility_check(url, formats)
 
                 message = "Report(s) generated successfully!"
             except Exception as ex:
