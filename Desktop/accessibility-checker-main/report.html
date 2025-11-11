@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Checker</title>
+
+    <style>
+        body {
+            margin: 2rem;
+            font: 1rem Arial, sans-serif;
+            height: 100vh;
+        }
+
+        main {
+            max-width: 64rem;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        h3 {
+            margin: 0;
+            margin-bottom: 0.4rem;
+        }
+
+        p {
+            margin: 0;
+            margin-bottom: 0.3rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: 500;
+        }
+
+        code {
+            background-color: #f3f4f6;
+            border-radius: 0.25rem;
+            padding: 0.1rem 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        .border-box {
+            border: 1px solid lightgray;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+
+        .impact-critical {
+            border-left: 0.5rem solid darkred;
+        }
+
+        .impact-serious {
+            border-left: 0.5rem solid red;
+        }
+
+        .impact-moderate {
+            border-left: 0.5rem solid orange;
+        }
+
+        .impact-minor {
+            border-left: 0.5rem solid yellow;
+        }
+
+        .violation-count-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .text-detail {
+            color: #4a5565;
+        }
+
+        .badge {
+            border-radius: 9999px;
+            border: 1px solid lightgray;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge.secondary {
+            background-color: #f3f4f6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+    </style>
+
+    <script>
+        // Sort violations based on selected criteria
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.querySelector('select');
+            const ul = document.querySelector('ul');
+
+            select.addEventListener('change', () => {
+                const criteria = select.value;
+                const items = Array.from(ul.children);
+
+                items.sort((a, b) => {
+                    const impactOrder = { 'critical': 4, 'serious': 3, 'moderate': 2, 'minor': 1 };
+
+                    const getImpact = (item) => {
+                        const impactClass = item.className.match(/impact-(\w+)/);
+                        return impactClass ? impactOrder[impactClass[1]] : 0;
+                    };
+
+                    const getFrequency = (item) => {
+                        const badge = item.querySelector('.badge.secondary');
+                        if (badge) {
+                            const m = badge.textContent.match(/(\d+)/);
+                            if (m) return parseInt(m[1], 10);
+                        }
+                    };
+
+                    if (criteria === 'alphabetical') {
+                        return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+                    } else if (criteria === 'impact') {
+                        return getImpact(b) - getImpact(a);
+                    } else if (criteria === 'most_instances') {
+                        return getFrequency(b) - getFrequency(a);
+                    } else if (criteria === 'impact_frequency') {
+                        return (getImpact(b) * getFrequency(b)) - (getImpact(a) * getFrequency(a));
+                    }
+                });
+
+                ul.innerHTML = '';
+                items.forEach(item => ul.appendChild(item));
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    
+
+
+    <main>
+        <h1>Accessibility Report</h1>
+        <p class="text-detail" style="margin-bottom: 2rem;">This accessibility report is generated using
+            <strong>axe-core</strong>.
+            It evaluates content against <strong>WCAG 2.0, 2.1, and 2.2 success criteria</strong>
+            at <strong>Levels A, AA, and AAA</strong>, as well as a set of
+            <strong>best practice rules</strong> for common accessibility issues.
+            Axe-core can automatically detect many issues and will mark others as
+            <em>incomplete</em> when manual review is required.
+        </p>
+
+        <div class="border-box" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p><strong>URL:</strong> <code>https://www.sdu.dk/da</code></p>
+                <p><strong>Scanned:</strong> <span class="text-detail">11-11-2025 20:04:19 CET</span></p>
+            </div>
+            <div style="display: flex; justify-content: space-between; column-gap: 1rem;">
+                <p class="text-detail"><strong>9</strong> violations</p>
+                <p class="text-detail"><strong>50</strong> passed</p>
+                <p class="text-detail"><strong>1</strong> incomplete</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; column-gap: 1rem; margin-bottom: 1.5rem;">
+
+            
+            
+            
+            
+
+            <div class="border-box violation-count-container">
+                <div>
+                    <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Critical
+                    </p>
+                    <p style="font-weight: 600; font-size: 2rem;">0</p>
+                </div>
+
+                
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-octagon-alert-icon lucide-octagon-alert">
+        <path d="M12 16h.01" />
+        <path d="M12 8v4" />
+        <path
+            d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
+    </svg>
+    
+    
+            </div>
+
+            <div class="border-box violation-count-container">
+                <div>
+                    <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Serious
+                    </p>
+                    <p style="font-weight: 600; font-size: 2rem;">3</p>
+                </div>
+
+                
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+    </svg>
+    
+    
+            </div>
+
+            <div class="border-box violation-count-container">
+                <div>
+                    <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Moderate
+                    </p>
+                    <p style="font-weight: 600; font-size: 2rem;">4</p>
+                </div>
+
+                
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-circle-alert-icon lucide-circle-alert">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" x2="12" y1="8" y2="12" />
+        <line x1="12" x2="12.01" y1="16" y2="16" />
+    </svg>
+    
+    
+            </div>
+
+            <div class="border-box violation-count-container">
+                <div>
+                    <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Minor</p>
+                    <p style="font-weight: 600; font-size: 2rem;">2</p>
+                </div>
+
+                
+    
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info-icon lucide-info">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4" />
+        <path d="M12 8h.01" />
+    </svg>
+    
+    
+            </div>
+
+            <div class="border-box violation-count-container" style="background-color: #eff6ff;">
+                <div>
+                    <p class="text-detail" style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem;">Passed</p>
+                    <p style="font-weight: 600; font-size: 2rem;">50</p>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-circle-check-icon lucide-circle-check">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="m9 12 2 2 4-4" />
+                </svg>
+            </div>
+
+        </div>
+
+        <!-- Sort select for options: alphabetical, impact, frequency/nodes, impact*frequency -->
+        
+        <label htmlFor="sort">Sort by: </label>
+        <select id="sort">
+            <option value="impact_frequency" selected>Impact * Frequency</option>
+            <option value="alphabetical">Alphabetical</option>
+            <option value="impact">Impact</option>
+            <option value="most_instances">Most instances</option>
+        </select>
+        
+
+        <ul style="list-style-type: none; padding: 0;">
+            
+            <li class="border-box impact-serious">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>color-contrast</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">serious</div>
+                        <div class="badge secondary">7 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Elements must have sufficient color contrast.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/color-contrast?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;a id=&#34;cookiescript_readmore&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Read more&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;L\u00e6s mere&amp;quot;}&#34; data-cs-i18n-url=&#34;{&amp;quot;en&amp;quot;:&amp;quot;https:\/\/www.sdu.dk\/en\/om_sdu\/Om_dette_websted\/Brug_af_cookies&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;https:\/\/www.sdu.dk\/da\/om_sdu\/Om_dette_websted\/Brug_af_cookies&amp;quot;}&#34; href=&#34;https://www.sdu.dk/da/om_sdu/Om_dette_websted/Brug_af_cookies&#34; target=&#34;_blank&#34; aria-label=&#34;Læs mere, opens a new window&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;span class=&#34;cookiescript_checkbox_text&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Third-party statistics&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;Tredjepartsstatistik&amp;quot;}&#34;&gt;Tredjepartsstatistik&lt;/span&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;span class=&#34;cookiescript_checkbox_text&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Marketing&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;M\u00e5lrettede&amp;quot;}&#34;&gt;Målrettede&lt;/span&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;span class=&#34;cookiescript_checkbox_text&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;non-classified cookies&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;Ikke-klassificerede&amp;quot;}&#34;&gt;Ikke-klassificerede&lt;/span&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.03 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.02 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;span data-cs-show-title=&#34;cookie-script&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Show details&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;Vis detaljer&amp;quot;}&#34;&gt;Vis detaljer&lt;/span&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.02 (foreground color: #e8e8e8, background color: #e5e5e5, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.48 (foreground color: #474747, background color: #2d2d2d, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div id=&#34;cookiescript_accept&#34; tabindex=&#34;0&#34; role=&#34;button&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Accept all cookies&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;Accepter alle&amp;quot;}&#34;&gt;Accepter alle&lt;/div&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.48 (foreground color: #474747, background color: #2d2d2d, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has insufficient color contrast of 1.48 (foreground color: #474747, background color: #2d2d2d, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div id=&#34;cookiescript_reject&#34; tabindex=&#34;0&#34; role=&#34;button&#34; data-cs-i18n-text=&#34;{&amp;quot;en&amp;quot;:&amp;quot;Do not allow cookies&amp;quot;,&amp;quot;da&amp;quot;:&amp;quot;Afvis alle&amp;quot;}&#34;&gt;Afvis alle&lt;/div&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>color-contrast:</strong> Element has insufficient color contrast of 1.48 (foreground color: #474747, background color: #2d2d2d, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-serious">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>nested-interactive</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">serious</div>
+                        <div class="badge secondary">3 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Interactive controls must not be nested.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/nested-interactive?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has focusable descendants</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div class=&#34;mdc-checkbox&#34; role=&#34;button&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>no-focusable-content:</strong> Element has focusable descendants</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has focusable descendants</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div class=&#34;mdc-checkbox&#34; role=&#34;button&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>no-focusable-content:</strong> Element has focusable descendants</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Element has focusable descendants</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div class=&#34;mdc-checkbox&#34; role=&#34;button&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>no-focusable-content:</strong> Element has focusable descendants</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-moderate">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>heading-order</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">moderate</div>
+                        <div class="badge secondary">2 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Heading levels should only increase by one.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/heading-order?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Heading order invalid</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;h3&gt;Det kan du læse på Syddansk Universitet&lt;/h3&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>heading-order:</strong> Heading order invalid</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Heading order invalid</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;h4&gt;
+                    Studievalg
+                &lt;/h4&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>heading-order:</strong> Heading order invalid</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-serious">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>link-name</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">serious</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Links must have discernible text.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/link-name?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix all of the following:
+  Element is in tab order and does not have accessible text
+
+Fix any of the following:
+  Element does not have text that is visible to screen readers
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;a class=&#34;card_img&#34; style=&#34;background-image: url(&#39;https://www.sdu.dk/-/media/images/forsiden_nytsdu/relateret-indhold-spots/2025/valg25video580x300.png&#39;)&#34; href=&#34;https://sdu1.23video.com/secret/117670797/b042988aa5dc28a4d5a4ce0c0e3f32d9&#34; data-lity=&#34;&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>has-visible-text:</strong> Element does not have text that is visible to screen readers</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-label:</strong> aria-label attribute does not exist or is empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>aria-labelledby:</strong> aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</p>
+                                </li>
+                                
+                                <li class="border-box">
+                                    <p><strong>non-empty-title:</strong> Element has no title attribute</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-minor">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>duplicate-id</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">minor</div>
+                        <div class="badge secondary">2 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">id attribute value must be unique.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/duplicate-id?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Document has multiple static elements with the same id attribute: Layer_2</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;g id=&#34;Layer_2&#34; data-name=&#34;Layer 2&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>duplicate-id:</strong> Document has multiple static elements with the same id attribute: Layer_2</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Document has multiple static elements with the same id attribute: Layer_1-2</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;g id=&#34;Layer_1-2&#34; data-name=&#34;Layer 1&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>duplicate-id:</strong> Document has multiple static elements with the same id attribute: Layer_1-2</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-moderate">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>landmark-no-duplicate-contentinfo</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">moderate</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Document should not have more than one contentinfo landmark.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/landmark-no-duplicate-contentinfo?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Document has more than one contentinfo landmark</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;footer class=&#34;footer__fold  ctheme-orange&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>page-no-duplicate-contentinfo:</strong> Document has more than one contentinfo landmark</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-moderate">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>landmark-unique</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">moderate</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Ensures landmarks are unique.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/landmark-unique?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;footer class=&#34;footer__fold  ctheme-orange&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>landmark-is-unique:</strong> The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-moderate">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>region</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">moderate</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">All page content should be contained by landmarks.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/region?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  Some page content is not contained by landmarks</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;div class=&#34;offcanvas__top&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>region:</strong> Some page content is not contained by landmarks</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+            <li class="border-box impact-minor">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>meta-viewport-large</h3>
+                    <div style="display: flex; align-items: center; column-gap: 0.5rem;">
+                        <div class="badge">minor</div>
+                        <div class="badge secondary">1 instances</div>
+                    </div>
+                </div>
+                <p class="text-detail" style="margin-bottom: 0.6rem;">Users should be able to zoom and scale the text up to 500%.</p>
+                <a href="https://dequeuniversity.com/rules/axe/4.4/meta-viewport-large?application=axeAPI" target="_blank" rel="noopener noreferrer">
+                    Learn more
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-arrow-out-up-right-icon lucide-square-arrow-out-up-right">
+                        <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                        <path d="m21 3-9 9" />
+                        <path d="M15 3h6v6" />
+                    </svg>
+                </a>
+                <details style="margin-top: 1rem;">
+                    <summary>Instances</summary>
+                    <ul style="list-style-type: none; padding: 0; margin-top: 0.5rem;">
+                        
+                        <li class="border-box" style="margin-bottom: 1rem;">
+                            <p class="text-detail" style="margin-bottom: 0.5rem;">Fix any of the following:
+  <meta> tag limits zooming on mobile devices</p>
+
+                            <p style="margin-bottom: 0.3rem;"><strong>Affected elements</strong></p>
+                            <code>&lt;meta name=&#34;viewport&#34; content=&#34;width=device-width,initial-scale=1.0,maximum-scale=4.0,user-scalable=yes&#34;&gt;</code>
+
+                            <ul style="list-style-type: none; padding: 0; margin-top: 1rem;">
+                                
+                                <li class="border-box">
+                                    <p><strong>meta-viewport-large:</strong> <meta> tag limits zooming on mobile devices</p>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </details>
+            </li>
+            
+        </ul>
+
+        <footer>Team
+            Feams | Innovations in
+            Software
+            Engineering | 2025</footer>
+    </main>
+</body>
+
+</html>
