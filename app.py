@@ -3,6 +3,7 @@ import threading
 import requests
 from urllib.parse import urlparse
 from checker import run_accessibility_check
+import datetime
 
 
 def is_valid_url(url: str) -> bool:
@@ -32,6 +33,37 @@ def main(page: ft.Page):
         "Generate Report",
         icon=ft.Icons.FILE_OPEN,
     )
+
+    # Store previous scan results (temporary memory)
+    history = []
+
+    # Create table for history
+    table = ft.DataTable(
+        columns=[
+            ft.DataColumn(ft.Text("Name")),
+            ft.DataColumn(ft.Text("Date")),
+            ft.DataColumn(ft.Text("Total violations")),
+        ],
+        rows=[],
+    )
+
+     # Function to update table content
+    def update_table():
+        table.rows.clear()
+        for item in history:
+            table.rows.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(item["url"])),
+                        ft.DataCell(ft.Text(item["date"])),
+                        ft.DataCell(ft.Text(str(item["total_violations"]))),
+                    ]
+                )
+            )
+        page.update()
+
+
+
 
     checkbox_html = ft.Checkbox(label="HTML", value=False)
     checkbox_pdf = ft.Checkbox(label="PDF", value=False)
@@ -72,7 +104,15 @@ def main(page: ft.Page):
                 if pdf_selected:
                     formats.append("pdf")
                   
-                run_accessibility_check(url, formats)
+                # Get results from checker.py
+                results = run_accessibility_check(url, formats)
+
+                # Store result in the table
+                now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                # Temporary violations (you can replace this with actual data)
+                total_violations = len(results["violations"])
+                history.append({"url": url, "date": now, "total_violations": total_violations})
+                update_table()
 
                 message = "Report(s) generated successfully!"
             except Exception as ex:
@@ -88,6 +128,7 @@ def main(page: ft.Page):
         threading.Thread(target=task, daemon=True).start()
 
     generate_button.on_click = run_check
+    
 
     page.add(
         ft.Container(
@@ -97,11 +138,37 @@ def main(page: ft.Page):
                     ft.Row([checkbox_html, checkbox_pdf],
                            alignment=ft.MainAxisAlignment.CENTER),
                     generate_button,
+                     ft.Divider(),
+ft.Container(
+    content=ft.Column(
+        [
+            ft.Text("Previous Reports", size=18, weight=ft.FontWeight.BOLD),
+            table,
+        ],
+        alignment=ft.MainAxisAlignment.START,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=10,
+    ),
+    border=ft.border.all(1, ft.Colors.GREY_400),
+    border_radius=10,
+    padding=20,
+    margin=20,
+    width=600,
+    bgcolor=ft.Colors.WHITE,
+    shadow=ft.BoxShadow(
+        spread_radius=1,
+        blur_radius=8,
+        offset=ft.Offset(0, 2),
+    ),
+),
+
+
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,         
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,  
             ),
             alignment=ft.alignment.center,
+             padding=20,
         )
     )
 

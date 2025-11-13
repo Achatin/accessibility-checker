@@ -3,7 +3,8 @@ import json
 import datetime
 from zoneinfo import ZoneInfo
 from urllib.parse import urlparse
-from pyparsing import List
+#from pyparsing import List
+from typing import List
 import requests
 from robotexclusionrulesparser import RobotExclusionRulesParser
 from playwright.sync_api import sync_playwright
@@ -142,6 +143,8 @@ def run_accessibility_check(url: str, formats: List[str] = ["html", "pdf"]):
     if "pdf" in formats:
         generate_pdf(url, results)
         print("PDF report generated: report.pdf")
+
+    return results
 
 
 # ----------------------------- #
