@@ -79,7 +79,7 @@ def process_violations(violations: list) -> list:
     return violations
 
 
-def render_html_report(url: str, results: dict, template_file: str = "template.html") -> str:
+def render_html_report(url: str, results: dict, template_file: str = "templates/template.html") -> str:
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template(template_file)
 
@@ -95,7 +95,10 @@ def render_html_report(url: str, results: dict, template_file: str = "template.h
         incomplete=incomplete
     )
 
-    with open("report.html", "w", encoding="utf-8") as f:
+    REPORT_DIR = Path("reports")
+    REPORT_DIR.mkdir(exist_ok=True)
+    html_file = REPORT_DIR / f"report_{datetime.datetime.now():%Y%m%d_%H%M%S}.html"
+    with open(html_file, "w", encoding="utf-8") as f:
         f.write(output)
 
     return output
@@ -117,7 +120,10 @@ def generate_pdf(url: str, results: dict, template_file: str = "templates/pdf-te
         incomplete=incomplete_data
     )
 
-    HTML(string=html_out).write_pdf("report.pdf")
+    REPORT_DIR = Path("reports")
+    REPORT_DIR.mkdir(exist_ok=True)
+    pdf_file = REPORT_DIR / f"report_{datetime.datetime.now():%Y%m%d_%H%M%S}.pdf"
+    HTML(string=html_out).write_pdf(pdf_file)
 
 
 # ----------------------------- #

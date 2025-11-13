@@ -1,0 +1,6 @@
+reports.db
+reports/
+report.pdf
+report.html
+storage/
+__pycache__/
